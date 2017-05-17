@@ -16,7 +16,7 @@ def wordsclasification_visualization():
    spark = sparksessioninit(sc.getConf())
    tiempo, fecha = sys.argv[1:]
    interval_time =("%s %s"%(fecha,tiempo))
-   query = "select words, sum(total_word) as total_global from hive_pregunta_5 \
+   query = "select words, sum(total_word) as total_global from hive_pregunta_5_13 \
             where date between cast('{}' as timestamp) - INTERVAL 1 DAY and cast('{}' as timestamp) \
             group by words order by total_global desc limit 10".format(interval_time,interval_time)
 
