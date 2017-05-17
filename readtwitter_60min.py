@@ -53,9 +53,9 @@ def read_credentials():
 def read_tweets():
 
     sc = SparkContext(appName="Project2")
-    ssc = StreamingContext(sc, 600)  #cambiar por 600 = 10 min.
+    ssc = StreamingContext(sc,3600)  #cambiar por 600 = 10 min.
     brokers = "localhost:9092"
-    kvs = KafkaUtils.createDirectStream(ssc, ["twitter_10min"], {"metadata.broker.list": brokers})
+    kvs = KafkaUtils.createDirectStream(ssc, ["twitter_60min"], {"metadata.broker.list": brokers})
     kvs.foreachRDD(create_format)
     producer.flush()
     ssc.start()
@@ -68,10 +68,10 @@ def create_format(messages):
     count=0
 
     for tweet in iterator:
-        producer.send('twitter_10min', bytes(json.dumps(tweet), "ascii"))
+        producer.send('twitter_60min', bytes(json.dumps(tweet), "ascii"))
         count+=1
 
-        if(count==20000):
+        if(count==90000):
            break
 
 
